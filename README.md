@@ -1,0 +1,1 @@
+This is simple bar chart made in C++
