@@ -14,8 +14,6 @@ max(1)
 	// create left bar
 	for (int index{0}; index < this->height; index++)
 		chart.push_back("|");
-
-	// TODO: constructor
 }
 
 // add value to variables
@@ -25,15 +23,27 @@ void Chart::add_value(int num)
 }
 
 // create and display chart on the screen
-void Chart::display_chart()
+void Chart::display_chart(bool sorted)
 {
 	// if there is no chart
 	if (values.size() == 0)
 		return;
 
-	// sort values for better visual
-	sort(values.begin(), values.end(), [](int a, int b) { return a > b; });
-	get_max_limit(values[0]);
+	int max_num{0};
+	if (sorted)
+	{
+		// sort values for better visual
+		sort(values.begin(), values.end(), [](int a, int b) { return a > b; });
+		max_num = values[0];
+	}
+	else
+	{
+		// get max number
+		for (int index{0}; index < static_cast<int>(values.size()); index++)
+			if (values[index] > max_num)
+				max_num = values[index];
+	}
+	get_max_limit(max_num);
 
 	// fill chart up with empty space
 	this->width = (values.size() * 2) + 1;
@@ -58,7 +68,7 @@ void Chart::display_chart()
 		chart[this->height - 1] += '_';
 
 	// empty out space below bar for numbers
-	for (int index{0}; index < get_len_of_int(values[0]); index++)
+	for (int index{0}; index < get_len_of_int(max_num); index++)
 	{
 		this->height++;
 		chart.push_back("");
@@ -90,22 +100,31 @@ void Chart::display_chart()
 	}
 
 	// print chart
+	std::cout << '\n';
 	for (int index{0}; index < this->height; index++)
 		std::cout << chart[index] << '\n';
+	std::cout << '\n';
 }
 
 // find next round number
 void Chart::get_max_limit(int num)
 {
+	
 	int len{get_len_of_int(num) - 1};
+	if (num % pow(10, len) == 0)
+	{
+		this->max = num;
+		return;
+	}
 	this->max = (num / pow(10, len) + 1) * pow(10, len);
+	
 }
 
 // get length of int
 int Chart::get_len_of_int(int num)
 {
 	int len{0};
-	for (int temp{num}; temp; len++, temp/=10);
+	for (int temp{num}; temp; len++, temp /= 10);
 	return len;
 }
 

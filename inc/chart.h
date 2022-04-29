@@ -18,5 +18,5 @@ private:
 public:
 	Chart(int start_height = 10);
 	void add_value(int num); // add value to variables
-	void display_chart(); // create and display chart on the screen
+	void display_chart(bool sorted = true); // create and display chart on the screen
 };
