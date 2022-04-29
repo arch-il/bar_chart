@@ -22,7 +22,7 @@ int main()
 		std::cout << "number of inputs: ";
 		int num{};
 		std::cin >> num;
-		for (int index{0}; index < num; index++)
+		for (int index{1}; index <= num; index++)
 		{
 			std::cout << "input number(" << index << '/' << num << "): ";
 			int temp{};
